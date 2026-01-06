@@ -120,5 +120,5 @@ The model along with selected features are saved in `output/` directory using `j
 
 ---
 ## Author
-**Kalavakuri Abhinay**
+**Kalavakuri Abhinay**\
 **Prathmesh Yadav**
