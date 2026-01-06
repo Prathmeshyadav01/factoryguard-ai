@@ -22,7 +22,7 @@ The project goes beyond model training and covers:
 ## Project Structure
 ```
 ├── data/
-    ├──raw                              # Directory containing datasets
+    ├──raw/                              # Directory containing datasets
         ├── RUL_FD001.txt
         ├── test_FD001.txt
         ├── train_FD001.txt
@@ -119,6 +119,6 @@ Based on the graph, **optimal threshold 0.6** is selected for improved precision
 The model along with selected features are saved in `output/` directory using `joblib` 
 
 ---
-## Author
+## Authors
 **Kalavakuri Abhinay**\
 **Prathmesh Yadav**
