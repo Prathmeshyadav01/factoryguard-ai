@@ -1,7 +1,7 @@
 # FactoryGuard AI - IoT Predictive Maintenance Engine
 
 ## Project Overview
-This project implements a **production-ready, end-to-end machine learning system** to predict .  
+This project implements a **production-ready, end-to-end machine learning system** to predict component failure in 24 hrs.  
 The focus is on **imbalanced classification**, **robust evaluation using PR-AUC**, **threshold-aware decision-making**, and **deployment**.
 
 The project goes beyond model training and covers:
