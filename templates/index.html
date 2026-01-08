@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FactoryGuard-AI | Predictive Maintenance</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                #eef2f3,
+                #dfe9f3
+            );
+        }
+        
+
+        .container {
+            width: 420px;
+            margin: 80px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #34495e;
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 4px rgba(52,152,219,0.3);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            font-size: 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            color: #2c3e50;
+        }
+
+        .low {
+            background: #f0fff5;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .high {
+            background: #fff1f0;
+            border-left: 5px solid #ff6600;
+        }
+        .medium {
+            background: #fffbe6;
+            border-left: 5px solid #f1c40f;
+        }
+
+        .critical {
+            background: #fdecea;
+            border-left: 5px solid #ff0000;
+        }
+
+    </style>
+</head>
+<script>
+const PRESETS = {
+    low: {
+        sensor_2_mean_6: 642.6966666667,
+        sensor_4_mean_6: 1408.3833333333,
+        sensor_7_mean_6: 553.7683333333,
+        sensor_11_mean_6: 47.5066666667,
+        sensor_15_mean_6: 8.43315,
+        sensor_21_mean_6: 23.33495,
+        sensor_3_mean_12: 1590.0016666667,
+        sensor_15_mean_12: 8.4326583333,
+        sensor_17_mean_12: 392.6666666667,
+        sensor_15_ema_12: 8.4334302301,
+        sensor_17_ema_12: 392.8826179321,
+        sensor_21_ema_12: 23.3262336787
+    },
+
+    medium: {
+        sensor_2_mean_6: 643.0033333333,
+        sensor_4_mean_6: 1419.7333333333,
+        sensor_7_mean_6: 552.6266666667,
+        sensor_11_mean_6: 47.8066666667,
+        sensor_15_mean_6: 8.4828,
+        sensor_21_mean_6: 23.1709166667,
+        sensor_3_mean_12: 1594.6716666667,
+        sensor_15_mean_12: 8.4769416667,
+        sensor_17_mean_12: 394.3333333333,
+        sensor_15_ema_12: 8.4799644034,
+        sensor_17_ema_12: 394.3329552484,
+        sensor_21_ema_12: 23.179966116
+    },
+
+    high: {
+        sensor_2_mean_6: 643.0133333333,
+        sensor_4_mean_6: 1414.595,
+        sensor_7_mean_6: 552.345,
+        sensor_11_mean_6: 47.7433333333,
+        sensor_15_mean_6: 8.4746666667,
+        sensor_21_mean_6: 23.2003333333,
+        sensor_3_mean_12: 1594.7608333333,
+        sensor_15_mean_12: 8.4610916667,
+        sensor_17_mean_12: 394.4166666667,
+        sensor_15_ema_12: 8.4649009988,
+        sensor_17_ema_12: 394.3972136228,
+        sensor_21_ema_12: 23.2184437485
+    },
+
+    critical: {
+        sensor_2_mean_6: 643.1716666667,
+        sensor_4_mean_6: 1420.2483333333,
+        sensor_7_mean_6: 552.1033333333,
+        sensor_11_mean_6: 47.95,
+        sensor_15_mean_6: 8.4816,
+        sensor_21_mean_6: 23.15875,
+        sensor_3_mean_12: 1596.87,
+        sensor_15_mean_12: 8.47825,
+        sensor_17_mean_12: 394.5833333333,
+        sensor_15_ema_12: 8.4829457657,
+        sensor_17_ema_12: 394.6213670979,
+        sensor_21_ema_12: 23.1630804297
+    }
+};
+
+function applyPreset() {
+    const preset = document.getElementById("preset").value;
+    if (!preset) return;
+
+    const values = PRESETS[preset];
+    for (const key in values) {
+        const input = document.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.value = values[key];
+        }
+    }
+}
+</script>
+
+
+<body>
+
+<div class="container">
+
+    <h2>FactoryGuard-AI<br>Failure Prediction</h2>
+
+    <label style="margin-bottom:6px;">Quick Test Preset</label>
+    <select id="preset" onchange="applyPreset()" style="
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #dcdde1;">
+    <option value="">-- Select Risk Scenario --</option>
+    <option value="low">LOW</option>
+    <option value="medium">MEDIUM</option>
+    <option value="high">HIGH</option>
+    <option value="critical">CRITICAL</option>
+    </select>
+
+
+    <form method="post" action="/predict">
+
+        <label>Sensor 2 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_2_mean_6"
+               value="{{ form_data.get('sensor_2_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 0.25)"
+               required>
+
+        <label>Sensor 4 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_4_mean_6"
+               value="{{ form_data.get('sensor_4_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. -0.80)"
+               required>
+
+        <label>Sensor 7 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_7_mean_6"
+               value="{{ form_data.get('sensor_7_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 0.12)"
+               required>
+
+        <label>Sensor 11 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_11_mean_6"
+               value="{{ form_data.get('sensor_11_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. -0.55)"
+               required>
+
+        <label>Sensor 15 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_15_mean_6"
+               value="{{ form_data.get('sensor_15_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+        
+        <label>Sensor 21 Mean (6)</label>
+        <input type="number" step="any"
+               name="sensor_21_mean_6"
+               value="{{ form_data.get('sensor_21_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 3 Mean (12)</label>
+        <input type="number" step="any"
+               name="sensor_3_mean_12"
+               value="{{ form_data.get('sensor_3_mean_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 15 Mean (12)</label>
+        <input type="number" step="any"
+               name="sensor_15_mean_12"
+               value="{{ form_data.get('sensor_15_mean_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 17 Mean (12)</label>
+        <input type="number" step="any"
+               name="sensor_17_mean_12"
+               value="{{ form_data.get('sensor_17_mean_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 15 EMA (12)</label>
+        <input type="number" step="any"
+               name="sensor_15_ema_12"
+               value="{{ form_data.get('sensor_15_ema_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 17 EMA (12)</label>
+        <input type="number" step="any"
+               name="sensor_17_ema_12"
+               value="{{ form_data.get('sensor_17_ema_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <label>Sensor 21 EMA (12)</label>
+        <input type="number" step="any"
+               name="sensor_21_ema_12"
+               value="{{ form_data.get('sensor_21_ema_12', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <button type="submit">Predict Failure Risk</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result {{risk | lower}}">
+        <p><b>Failure Probability:</b> {{ prediction }}</p>
+        <p><b>Risk Level:</b> {{ risk }}</p>
+        <p><b>Latency:</b> {{ latency }} ms</p>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
