@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FactoryGuard-AI | Predictive Maintenance</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(
+                135deg,
+                #eef2f3,
+                #dfe9f3
+            );
+        }
+        
+
+        .container {
+            width: 420px;
+            margin: 80px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #34495e;
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 4px rgba(52,152,219,0.3);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            font-size: 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            color: #2c3e50;
+        }
+
+        .low {
+            background: #f0fff5;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .high {
+            background: #fff1f0;
+            border-left: 5px solid #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>FactoryGuard-AI<br>Failure Prediction</h2>
+
+    <form method="post" action="/predict">
+
+        <label>Sensor 2 Mean (6)</label>
+        <input type="number" step="any" min="-5" max="5"
+               name="sensor_2_mean_6"
+               value="{{ form_data.get('sensor_2_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 0.25)"
+               required>
+
+        <label>Sensor 7 Mean (6)</label>
+        <input type="number" step="any" min="-5" max="5"
+               name="sensor_7_mean_6"
+               value="{{ form_data.get('sensor_7_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. -0.80)"
+               required>
+
+        <label>Sensor 9 Lag (1)</label>
+        <input type="number" step="any" min="-5" max="5"
+               name="sensor_9_lag_1"
+               value="{{ form_data.get('sensor_9_lag_1', '') }}"
+               placeholder="-5 to 5 (e.g. 0.12)"
+               required>
+
+        <label>Sensor 4 Mean (6)</label>
+        <input type="number" step="any" min="-5" max="5"
+               name="sensor_4_mean_6"
+               value="{{ form_data.get('sensor_4_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. -0.55)"
+               required>
+
+        <label>Sensor 11 Mean (6)</label>
+        <input type="number" step="any" min="-5" max="5"
+               name="sensor_11_mean_6"
+               value="{{ form_data.get('sensor_11_mean_6', '') }}"
+               placeholder="-5 to 5 (e.g. 1.10)"
+               required>
+
+        <button type="submit">Predict Failure Risk</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result {{ 'high' if risk == 'HIGH' else 'low' }}">
+        <p><b>Failure Probability:</b> {{ prediction }}</p>
+        <p><b>Risk Level:</b> {{ risk }}</p>
+        <p><b>Latency:</b> {{ latency }} ms</p>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
