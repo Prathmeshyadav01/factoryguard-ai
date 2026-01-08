@@ -31,9 +31,13 @@ The project goes beyond model training and covers:
     ├── 02_feature_engineering.ipynb    # Week 1: Feature Engineering
     ├── 03_modelling.ipynb              # Week 2: Modeling with Imbalance Handling
     ├── 04_explainability_shap.ipynb    # WeeK 3: Shap Explainability
+    ├── 05_testing_model.ipynb          # Testing saved model on data/raw/test_FD001.txt
 ├── output/            
     ├── features.pkl                    # Selected features list
     ├── final_model.pkl                 # Saved LightGBM model
+├── api_app.py                          # Backend API-based version
+├── api_request.py                      # Interaction with Backend API
+├── ui_app.py                           # UI-based version for Demo
 ├── requirements.txt                    # Requirments for this project
 ├── README.md                           # This File
 ```
@@ -117,7 +121,30 @@ Based on the graph, **optimal threshold 0.6** is selected for improved precision
 
 ---
 ## Deployment
-The model along with selected features are saved in `output/` directory using `joblib` 
+The application is deployed as two independent Flask services: a JSON-based inference API and a web-based UI for interactive testing and demonstrations. Both services rely on shared model artifacts stored on disk.
+
+**Model Artifacts:**
+All trained artifacts required for inference are stored in the `output/` directory.These artifacts are loaded at runtime by both the API and UI services to ensure feature consistency and reproducible predictions.
+
+**API Service (Inference Layer)**
+The inference API exposes a REST endpoint for programmatic access, benchmarking, and production integration through `api_app.py` & `api_request.py`
+
+Start the API server: `python api_app.py`
+
+**API Testing (Client)**
+A lightweight client script to test inference latency and validate risk categorization.
+RUN `python api_request.py`
+
+The script sends predefined LOW, MEDIUM, HIGH, and CRITICAL payloads/ User-defined to the API and reports:
+
+    * Failure probability
+    * Risk level
+    * Client-side latency
+
+**Web UI Service (Demonstration Layer)**\
+The UI service provides a lightweight HTML interface for manual and preset-based model evaluation using `ui_app.py` & template `templates/index.html`.
+
+Start the UI server: `python ui_app.py`
 
 ---
 ## Authors
