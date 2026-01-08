@@ -147,6 +147,7 @@ The UI service provides a lightweight HTML interface for manual and preset-based
 Start the UI server: `python ui_app.py`
 
 ---
-## Authors
-**Kalavakuri Abhinay**\
-**Prathmesh Yadav**
+## Contributors
+- **Kalavakuri Abhinay:**  Feature Engineering, Model Developemt , Deployment (API-Based) ,Documentation
+- **Prathmesh Yadav:** SHap Analysis, Deployment (UI-Based)
+
