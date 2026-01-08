@@ -1,0 +1,6 @@
+flask
+joblib
+pandas
+lightgbm
+numpy
+requests
