@@ -148,6 +148,6 @@ Start the UI server: `python ui_app.py`
 
 ---
 ## Contributors
-- **Kalavakuri Abhinay:**  Feature Engineering, Model Developemt , Deployment (API-Based) ,Documentation
+- **Kalavakuri Abhinay:**  Feature Engineering, Model Development , Deployment (API-Based) ,Documentation
 - **Prathmesh Yadav:** SHap Analysis, Deployment (UI-Based)
 
